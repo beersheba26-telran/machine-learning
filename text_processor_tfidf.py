@@ -1,3 +1,5 @@
+from os import getenv
+
 from text_prcessor import TextProcessor
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
@@ -33,3 +35,13 @@ class TextProcessorTFIDF(TextProcessor):
         sims = cosine_similarity(self.embeddings_text, embeddings_query)
         sentenceInd = np.argmax(sims)
         return self.cleaned_text_arr[sentenceInd] if sims[ sentenceInd][0] > 0 else "No similar sentence found."
+    @staticmethod
+    def createTextProcessor():
+        '''Factory method to create a TextProcessorTFIDF instance based on environment variable.
+        Expects TFIDF_MODEL_FILE environment variable to be set for loading the model.
+        '''
+        fileName = getenv("TFIDF_MODEL_FILE")
+        if not fileName:
+            raise ValueError("TFIDF_MODEL_FILE environment variable is not set.")
+        textProcessor = TextProcessorTFIDF(file=fileName)
+        return textProcessor

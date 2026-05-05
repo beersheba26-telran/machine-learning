@@ -1,4 +1,4 @@
-import joblib
+from os import getenv
 from abc import ABC, abstractmethod 
 class TextProcessor(ABC):
     def __init__(self,*,text="",file=""):
@@ -18,4 +18,13 @@ class TextProcessor(ABC):
     def save_model(self,file):pass
     @abstractmethod
     def get_answer(self, query): pass
+    @staticmethod
+    @abstractmethod
+    def createTextProcessor():
+        from text_processor_types import processorTypes
+        processorType=getenv("TEXT_PROCESSOR_TYPE")
+        if processorType not in processorTypes:
+            raise ValueError(f"Unsupported TEXT_PROCESSOR_TYPE: {processorType}")
+        
+        return processorTypes[processorType]()  
     
