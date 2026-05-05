@@ -7,7 +7,13 @@ class TextProcessor(ABC):
         elif text:
             self.model = self.create_model(text)
         elif file:
-            self.model = self.load_model(file)
+            self.model = joblib.load(file)
         else:
             raise ValueError("Either 'text' or 'file' must be provided.")
+    @abstractmethod
+    def create_model(self,text): pass
+    def save_model(self,file):
+        joblib.dump(self.model, file)
+    @abstractmethod
+    def get_answer(self, query): pass
     

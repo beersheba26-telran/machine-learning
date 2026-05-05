@@ -1,5 +1,3 @@
-# Note book for printing out the following
-- name of most sold manufacturer <br>
-- number of vehicles sold of most sold manufacturer<br>
-- minimal price of most sold manufacturer
-- maximal price of most sold manufacturer
+# TextProcessorTFIDF implementation
+See TODO comments 
+## Applying logger with possibility of configuring with env variables

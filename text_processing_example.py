@@ -1,3 +1,4 @@
+import joblib
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer  
@@ -9,7 +10,10 @@ text = "I want to start working as a programmer. I'm learning Python in Tel-Ran.
 text_arr = text.split('.')
 cleaned_text_arr = [res for sentence in text_arr if (res := sentence.strip())]
 vectorizer = TfidfVectorizer(stop_words="english")
-embeddings_text = vectorizer.fit_transform(cleaned_text_arr) #set vectorizer model with text    
+embeddings_text = vectorizer.fit_transform(cleaned_text_arr) #set vectorizer model with text   
+# point of saving vectorizer
+joblib.dump(vectorizer, "vectorizer.joblib") #save vectorizer model to file 
+# part od getting answer
 query = "Kukureku"
 embeddings_query = vectorizer.transform([query]) #get vector for query
 sims = cosine_similarity(embeddings_text, embeddings_query) #get cosine similarity between query and text   
