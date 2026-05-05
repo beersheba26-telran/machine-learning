@@ -7,16 +7,14 @@ text = "I want to start working as a programmer. I'm learning Python in Tel-Ran.
             I have to work and take care of my family. \
                 I don't know how to find time for practice. "  
 text_arr = text.split('.')
-cleaned_text_arr = [res for sentence in text_arr if (res := sentence.strip())] 
-query  = "How much time do you have for practice?"
+cleaned_text_arr = [res for sentence in text_arr if (res := sentence.strip())]
 vectorizer = TfidfVectorizer(stop_words="english")
-tfidf_matrix = vectorizer.fit_transform(cleaned_text_arr)
-query_vector = vectorizer.transform([query])
-dense_matrix = tfidf_matrix.toarray()
-print(dense_matrix)
-similarity_scores = cosine_similarity(query_vector, tfidf_matrix)
-print("Similarity scores:", similarity_scores)
-most_similar_index = np.argmax(similarity_scores)
-most_similar_sentence = cleaned_text_arr[most_similar_index]
-print("Most similar sentence:", most_similar_sentence)             
-                
+embeddings_text = vectorizer.fit_transform(cleaned_text_arr) #set vectorizer model with text    
+query = "Kukureku"
+embeddings_query = vectorizer.transform([query]) #get vector for query
+sims = cosine_similarity(embeddings_text, embeddings_query) #get cosine similarity between query and text   
+sentenceInd = np.argmax(sims) #get index of the most similar sentence
+if sims[sentenceInd][0] > 0: #if similarity is greater than 0, print the most similar sentence
+    print("Most similar sentence:", cleaned_text_arr[sentenceInd])
+else:
+    print("No similar sentence found.")
